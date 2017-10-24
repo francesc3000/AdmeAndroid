@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         */
+        /*
         MyObjectRequest request = new MyObjectRequest(Request.Method.GET,url + "/api", null,
                 new Response.Listener<JSONObject>(){
                     @Override
@@ -92,8 +93,43 @@ public class MainActivity extends AppCompatActivity {
                 ,"francesc3000"
                 ,"abc123"
         );
-/*
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url + "/api/francesc3000/groups", null,
+        */
+
+        AuthRequest request = new AuthRequest(Request.Method.GET, url + "/api/francesc3000/groups",null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                // Check the length of our response (to see if the user has any repos)
+                if (response.length() > 0) {
+                // The user does have repos, so let's loop through them all.
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        // For each repo, add a new line to our repo list.
+                        String name = response.get("_links").toString();
+                        //String course = jsonObj.get("course").toString();
+                        //addToRepoList(name, course);
+                    } catch (JSONException e) {
+                        // If there is an error then output this to the logs.
+                        Log.e("Volley", "Invalid JSON Object.");
+                    }
+
+                }
+            } else {
+                // The user didn't have any repos.
+                listText("No repos found.");
+            }
+        }
+    },
+            new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            // If there a HTTP error then add a note to our repo list.
+            listText("Error while calling REST API");
+            Log.e("Volley", error.toString());
+        }
+    });
+
+        /*
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url + "/api", null,
                 new Response.Listener<JSONObject>(){
                     @Override
                     public void onResponse(JSONObject response) {
@@ -127,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-*/
+        */
 /*
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
